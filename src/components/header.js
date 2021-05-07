@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import logoTreeBig from "./assets/Logo/logoTreeBig.jpg";
-import{NavLink} from "react-router-dom";
+import{NavLink, Link} from "react-router-dom";
 import UserService from '../services/userService';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import Button from '@material-ui/core/Button';
@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import { red, yellow } from '@material-ui/core/colors';
+const email=localStorage.getItem('email');
 class Header extends Component {
     constructor(props){
         super(props);
@@ -56,8 +57,8 @@ class Header extends Component {
                 </NavLink>
         }
         {
-        this.state.loggedIn && <span>
-        <Button aria-controls="simple-menu" aria-haspopup="true" onClick={handleClick}>
+        this.state.loggedIn && <span id="IconLogin">
+        <Button aria-controls="simple-menu"   aria-haspopup="true" onClick={handleClick}>
           <AccountCircleIcon/>
         </Button>
         <Menu
@@ -68,6 +69,7 @@ class Header extends Component {
           onClose={handleClose}
         >
           <MenuItem><a href="/cart"><ShoppingCartRoundedIcon style={{ color: yellow[500] }}/></a></MenuItem>
+          <Link to="/orders"><MenuItem><Button variant="contained" color="primary">My Orders</Button></MenuItem></Link>
           <MenuItem onClick={this.logout}><a href="/login"><ExitToAppRoundedIcon style={{ color: red[500] }}/></a></MenuItem>
         </Menu>
       </span>

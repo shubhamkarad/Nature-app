@@ -159,6 +159,9 @@ code {
         .loginBlock {
             width: 100%;
         }
+        #iconLogin{
+            width: 100%;
+        }
         .feedbackBlock {
             width: 100%;
         }
@@ -334,6 +337,10 @@ code {
             width: 100%;
             height: auto;
         }
+        #iconLogin{
+            width: 100%;
+            height: auto;
+        }
         div.createAccount {
             width: 100%;
             height: auto;
@@ -470,6 +477,11 @@ code {
             height: auto;
             margin-left: 15%;
         }
+        #IconLogin{
+            width: 100%;
+            height: auto;
+            
+        }
         div .feedbackBlock h3 {
             width: 100%;
             height: auto;
@@ -483,6 +495,11 @@ code {
         div.loginBlock {
             width: 95%;
             margin: 2%;
+        }
+        #IconLogin{
+            width: 95%;
+            margin-top: 3px;
+            margin-left:60%;
         }
         div.feedbackBlock {
             width: 95%;
@@ -1267,3 +1284,17 @@ code {
          margin-top:10px;
          
      }
+/*----------------ui design-------------*/
+    .nameEmail{
+        background-color: #202020;
+        border-radius: 10px;
+        color: rgb(255, 224, 88);
+        text-align: center;
+        font-size: 0.7em;
+        margin-left: 90px;
+        padding: 3px;
+        margin-bottom:10px ;
+    }
+   /* #IconLogin{
+       background-color: black;
+   } */

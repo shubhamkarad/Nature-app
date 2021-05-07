@@ -8,13 +8,14 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button, TableFooter, TableSortLabel } from '@material-ui/core';
-
+import { Button, TableFooter } from '@material-ui/core';
+import StoreSharpIcon from '@material-ui/icons/StoreSharp';
+import userService from '../services/userService';
 
 
 class Cart extends React.Component {
 
-    constructor(props){
+      constructor(props){
         super(props);
         this.state={
             sum:0,
@@ -52,32 +53,28 @@ class Cart extends React.Component {
         }
         if(!localStorage.getItem('email')){
             this.props.history.push("/login");
-            localStorage.removeItem('productId');
-            localStorage.removeItem('productName');
-            localStorage.removeItem('productPrice');
         }
     }
 
     async setProducts(){
         const email=localStorage.getItem('email');
         await CartService.getItems(email).then(res=>{
-            res.data.message.map(user=>{
-                if(user.email === email){
-                   return this.setState({products:user.products});
-                }
-                return true;
-            });
+            this.setState({products:res.data.message[0].products});
             this.calculateTotal();
         }
         ).catch(err=>{
             console.log(err);
+            userService.logout();
+            this.props.history.push("/login");
         });
         
     }
 
     checkout(){
-      localStorage.setItem('total',this.state.sum);
-      localStorage.setItem('products',this.state.products);
+      if(this.state.sum>0){
+        localStorage.setItem('total',this.state.sum);
+        localStorage.setItem('total_per_item',JSON.stringify(this.state.totalPerItem));
+      }
       this.props.history.push("/orders");
     }
 
@@ -137,25 +134,23 @@ class Cart extends React.Component {
       });
     return (
     <div>
+      <div className="loginBlock">
+            <h3>YOUR CART</h3>
+      </div>
       <div className="appleBonsai">
       <TableContainer component={Paper}>
       <Table className={classes.table} size="small" aria-label="a dense table">
         <TableHead>
           <TableRow>
-            <TableCell>
-                <TableSortLabel
-                    active = {"products" === "products"}
-                    direction = "asc"
-                    onClick>Product Name
-                </TableSortLabel>
-            </TableCell>
+            <TableCell>Product Name</TableCell>
             <TableCell align="center">Quantity</TableCell>
             <TableCell align="right">Price Per Item</TableCell>
             <TableCell align="right">Total Per Item</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {this.state.products.map((val,index)=>{
+          {
+          this.state.products && this.state.products.map((val,index)=>{
             return(
             <TableRow key={val[0]}>
               <TableCell component="th" scope="row">
@@ -177,17 +172,25 @@ class Cart extends React.Component {
         </TableRow>
         </TableBody>
         <TableFooter>
+          {
+            this.state.products.length>0?<TableRow>
+            <TableCell colSpan="2" align="center"><Button variant="contained" color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+            <TableCell colSpan="2" align="center">
+              <Button variant="contained" color="secondary" onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
+          </TableRow>:
           <TableRow>
-            <TableCell colSpan="2" align="center"><Button color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
-            <TableCell colSpan="2" align="center"><Button color="secondary" onClick={this.checkout}>Proceed to CheckOut</Button></TableCell>
-          </TableRow>
+          <TableCell colSpan="2" align="center"><Button variant="contained" disabled onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+          <TableCell colSpan="2" align="center">
+            <Button variant="contained" disabled onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
+        </TableRow>
+          }
         </TableFooter>
       </Table>
     </TableContainer>
     </div>  
+     
     </div>
      );
   }
 }
-
 export default Cart;

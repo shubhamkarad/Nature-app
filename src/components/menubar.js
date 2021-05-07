@@ -30,7 +30,7 @@ class Menubar extends Component {
                 {this.state.categories && this.state.categories.map((value)=>{
                     referTo="/productsByCategory/"+value.id;
                 
-                return <Link to={referTo}><a className="links" key={value.id}>{value.name}</a></Link>
+                return <Link to={referTo} className="links" key={value.id}>{value.name}</Link>
                 })
                 }
                 

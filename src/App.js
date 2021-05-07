@@ -14,15 +14,14 @@ import Products from './components/productsByCategory';
 import ProductDetails from './components/productDetails';
 import Product from './components/products';
 import Cart from './components/cart';
+import Orders from './components/order';
 
 function App() {
   return (
     <div>
       <Router>
-    <div>
       <Header/>
-      <div>
-        <Navbar/>
+      <Navbar/>
         <Menubar/>
         <Switch>
             <Route path="/" exact component={Home}></Route>
@@ -34,11 +33,12 @@ function App() {
             <Route path="/products"  component={Product}></Route>
             <Route path="/product-details:id"  component={ProductDetails}></Route>
             <Route exact path="/cart" component={Cart}/>
+            <Route path="/orders" component={Orders}></Route>
         </Switch>
       {/* <Home/> */}
-      </div>
+     
       <Footer/>
-    </div>
+   
     </Router>
     </div>
   );

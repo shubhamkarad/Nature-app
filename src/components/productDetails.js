@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
 import ProductService from '../services/productService';
 // import AppleBonsai1 from "../assets/Bonsai/AppleBonsai1.jpg";
 // import AppleBonsai2 from "../assets/Bonsai/AppleBonsai2.jpg";
@@ -24,7 +23,9 @@ class ProductDetails extends Component {
             let images = prod.images.slice(1, );
             let description = prod.description;
             let price = prod.price;
-            let position = description.split("position: ")[1];
+            let position = description.split("Position :")[1];
+            this.setState({position:position});
+            description=description.split("Position :")[0];
             this.setState({product:{id:id, categoryId:categoryId, productName:productName, images:images, description:description, price:price}})    
         }).catch(err =>{
             console.log(err);
@@ -32,12 +33,13 @@ class ProductDetails extends Component {
     }
      // add products to cart
      addProduct(){
-      console.log(this.state);
+       console.log(this.state);
       localStorage.setItem('productId',this.state.product.id);
       localStorage.setItem('productName',this.state.product.productName);
       localStorage.setItem('productPrice',this.state.product.price);
       this.props.history.push("/cart");
-    } 
+    }
+
     render() {
         return (
             <div>
@@ -59,7 +61,7 @@ class ProductDetails extends Component {
                     <div class="select">
                         <h3>{this.state.product.price}</h3>
                         <input type="submit" value="Buy Product" onClick={this.addProduct}/>
-                        <Link to="/products"><a href="bonsai.html"><input type="submit" style={{marginLeft:'10px'}} value="Back To Bonsai"/></a></Link>
+                       <span style={{marginLeft:'10px'}}></span><input type="submit" value="Back" onClick={()=>this.props.history.goBack()}/>
                     </div>
                 </div>
                 </div> 

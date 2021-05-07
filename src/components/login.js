@@ -12,6 +12,7 @@ class Login extends Component {
             signUpPassword:"",
             password:"",
             nameError:"",
+            signUpFail:"",
             emailError:"",
             passwordError:""
         }
@@ -36,20 +37,77 @@ class Login extends Component {
     }
     onPasswordChange=(e)=>{
         this.setState({ signUpPassword: e.target.value});
+    } 
+    validateName = () => {
+        let nameError="";
+         if(!this.state.name){
+             nameError = "Name Cannot be empty";
+         }
+         else if(!this.state.name.match(["^[a-zA-Z\s]+$"])){
+             nameError="Name should contain characters only";
+         }
+         if(nameError){
+            this.setState({nameError})
+            return false;
+         }
+         else{this.setState({nameError:""})}
+         return true;
     }
-    //on submit call
+    validateEmail = () => {
+       let emailError="";
+         if(!this.state.signUpEmail){
+             emailError = "Email Cannot be empty";
+         }
+         else if(!this.state.signUpEmail.match(["^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"])){
+             emailError="Please enter a valid Email";
+         }
+         if(emailError){
+            this.setState({emailError})
+            return false;
+         }
+         else{this.setState({emailError:""})}
+         return true;
+    }
+    validatePassword = () => {
+       let passwordError="";
+        if(!this.state.signUpPassword){
+            passwordError="Please enter a password";
+        }
+        else if(!this.state.signUpPassword.match(["^(?=.*[0-9])"
+                       + "(?=.*[a-z])(?=.*[A-Z])"
+                       + "(?=.*[@#$%^&+=])"
+                       + "(?=\\S+$).{8,20}$"])){
+            passwordError="password must contain special character & number";
+        }
+         if(passwordError){
+            this.setState({passwordError})
+            return false;
+         }
+         else{this.setState({passwordError:""})}
+         return true;
+    }
+    //on sign up call
     submitAccount = (e)=>{
+         const isValidName = this.validateName();
+        const isvalidEmail = this.validateEmail();
+        const isValidPassword = this.validatePassword();
         e.preventDefault();
         let user = {name:this.state.name, email:this.state.signUpEmail, password:this.state.signUpPassword}
+        localStorage.setItem('name', this.state.name);
+        if(isValidName && isvalidEmail && isValidPassword){
+            alert(`Hey ${this.state.name} your account is created successfully.`)
+            console.log(this.state);
         UserService.signup(user)
         .then(res=>{
             console.log(res.data);
             this.setState({name:"", signUpEmail:"", signUpPassword:""});
-        })
-        const isValid = this.validate();
-        if(isValid){
-            alert(`Hey ${this.state.name} your account is created successfully.`)
-            console.log(this.state);
+        }).catch(err=>{
+            if(err.message === "Request failed with status code 401"){
+                this.setState({signUpFail:"User already exists"});
+            }
+        });
+       
+        
         }
 
     }
@@ -61,6 +119,12 @@ class Login extends Component {
         UserService.login(user)
         .then(res=>{console.log(res);
         UserService.setLocalStorage(res)
+        console.log("Login successful");
+        if(localStorage.getItem('productId')&&localStorage.getItem('productPrice')&&localStorage.getItem('productName')){
+            this.props.history.push("/cart");
+        }else{
+            this.props.history.push("/");
+        }
         this.setState({email:"", password:""});
         })
         
@@ -125,24 +189,27 @@ class Login extends Component {
                     <div className="createAccount">
                         <form onSubmit={this.submitAccount}>
                             <h2>Add Account</h2>
-                            <p><label htmlFor="name">name: </label>
+                            <p><label htmlFor="name">Name: </label>
                             <input type="text" name="name" value={this.state.name}
-                            onChange={this.onnameChange}/>
-                            <div className="error">{this.state.nameError}</div>
+                            onChange={this.onnameChange}
+                            onBlur={this.validateName}/>
+                            <span className="error">{this.state.nameError}</span>
                             </p>
                             <p><label htmlFor="email">Email : </label>
                             <input type="text" name="email" value={this.state.signUpEmail}
-                            onChange={this.onEmailChange}/>
-                            <div className="error">{this.state.emailError}</div>
+                            onChange={this.onEmailChange}
+                            onBlur={this.validateEmail}/>
+                            <span className="error">{this.state.emailError}</span>
                             </p>
                             <p><label htmlFor="password">Password : </label>
                             <input type="password"name="password"value={this.state.signUpPassword} 
-                            onChange={this.onPasswordChange}/>
-                            <div className="error">{this.state.passwordError}</div>
+                            onChange={this.onPasswordChange}
+                            onBlur={this.validatePassword}/>
+                            <span className="error">{this.state.passwordError}</span>
                             </p>
                             <p><a href="#"><input type="submit" disabled={ this.state.name.length<1 ||
                             this.state.signUpEmail.length<1 || this.state.signUpPassword.length<1} value="Create Account"/></a></p>
-                            <div>{this.state.message}</div>
+                           <p><span id="error">{this.state.signUpFail}</span></p>
                         </form>
                     </div>
                     <div className="alreadyUser">
@@ -151,7 +218,7 @@ class Login extends Component {
                             <p><label htmlFor="email">Email : </label>
                             <input type="email" name="email" value={this.state.email}
                             onChange={this.onUserEmailChange}/>
-                            <div className="error">{this.state.useremailError}</div>
+                            <span className="error">{this.state.useremailError}</span>
                             </p>
                             <p><label htmlFor="password">Password : </label>
                             <input type="password"name="password" value={this.state.password}
