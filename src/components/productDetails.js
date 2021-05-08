@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 import ProductService from '../services/productService';
-// import AppleBonsai1 from "../assets/Bonsai/AppleBonsai1.jpg";
-// import AppleBonsai2 from "../assets/Bonsai/AppleBonsai2.jpg";
 class ProductDetails extends Component {
     constructor(props){
         super(props);
@@ -12,7 +10,7 @@ class ProductDetails extends Component {
         }
         this.addProduct= this.addProduct.bind(this);
     }
-    // getting the data
+    // get the Product details using product id
     componentDidMount(){
         ProductService.getProduct(this.state.id).then(res=>{
             console.log(res.data.message);
@@ -59,9 +57,9 @@ class ProductDetails extends Component {
                     <p>{this.state.product.description}<br/>
                     <b>Position :</b>{this.state.position}</p>
                     <div class="select">
-                        <h3>{this.state.product.price}</h3>
-                        <input type="submit" value="Buy Product" onClick={this.addProduct}/>
-                       <span style={{marginLeft:'10px'}}></span><input type="submit" value="Back" onClick={()=>this.props.history.goBack()}/>
+                    <h3>{this.state.product.price}</h3>
+                    <input type="submit" value="Buy Product" onClick={this.addProduct}/>
+                    <span style={{marginLeft:'10px'}}></span><input type="submit" value="Back" onClick={()=>this.props.history.goBack()}/>
                     </div>
                 </div>
                 </div> 

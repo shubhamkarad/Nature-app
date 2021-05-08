@@ -6,9 +6,9 @@ class Menubar extends Component {
         super(props);
         this.state={
             categories:[]
-        }
-         
+        }  
     }
+    // fetching the menulist from productCategory
     componentDidMount(){
         ProductCategoryService.getProductCategories()
         .then(res=>{
@@ -18,9 +18,6 @@ class Menubar extends Component {
             console.log(err);
         });
     }
-    // category.map((elements)=>{
-    //     const{categorId, categoryName} = elements;
-    
     render() {
         let referTo="";
         return (
@@ -32,8 +29,7 @@ class Menubar extends Component {
                 
                 return <Link to={referTo} className="links" key={value.id}>{value.name}</Link>
                 })
-                }
-                
+                }    
                 </div>
             </div>
         );

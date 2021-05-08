@@ -5,9 +5,11 @@ const headers = {
     'content-type': 'application/json'
   };
 class ProductService  {
+    // Get all products
    getProducts(){
        return axios.get(USER_API_BASE_URL, {headers:headers});
    }
+   // Get products by id
    getProduct(id){
        return axios.get(`${USER_API_BASE_URL}${id}`, {headers:headers});
    }

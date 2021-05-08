@@ -498,8 +498,8 @@ code {
         }
         #IconLogin{
             width: 95%;
-            margin-top: 3px;
-            margin-left:60%;
+            margin-top: 12px;
+            margin-left:50px;
         }
         div.feedbackBlock {
             width: 95%;
@@ -561,6 +561,11 @@ code {
             text-align: center;
         }
         div.appleBonsai {
+            width: 100%;
+            height: auto;
+            margin: 0px;
+        }
+         div.cartTable {
             width: 100%;
             height: auto;
             margin: 0px;
@@ -1284,8 +1289,17 @@ code {
          margin-top:10px;
          
      }
+     /*-----------cart---------*/
+     .cartTable {
+        width: 78%;
+        height: auto;
+        float: left;
+        padding: 10px;
+        margin-top: 0px;
+        text-align: center;
+    }
 /*----------------ui design-------------*/
-    .nameEmail{
+    #nameEmail{
         background-color: #202020;
         border-radius: 10px;
         color: rgb(255, 224, 88);

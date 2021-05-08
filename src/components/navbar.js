@@ -8,6 +8,7 @@ class Navbar extends Component {
             categories:[]
         }
     }
+    // fetching the product list from Productservice
     componentDidMount(){
         productCategoryService.getProductCategories().then(res=>{
         this.setState({categories:res.data.message});
@@ -24,14 +25,13 @@ class Navbar extends Component {
                     <ul>
                         <li><Link to="/"><a href="/">HOME</a></Link></li>
                         <li><div className="dropdown">
-                                <NavLink
+                        <NavLink
                         activeClassName="menu_active"
                         className="nav-link"
-                        to="/products"
-                      >
+                        to="/products">
                        <button className="dropbtn">PRODUCTS</button> 
-                </NavLink>
-                    <div className="dropdown-content">
+                        </NavLink>
+                        <div className="dropdown-content">
                         {
                         this.state.categories && this.state.categories.map((val)=>{
                           referto="/productsByCategory/"+val.id;
@@ -40,27 +40,24 @@ class Navbar extends Component {
                         }
                     </div>
                 </div></li>
-            <li><NavLink
+                <li><NavLink
                         activeClassName="menu_active"
                         className="nav-link"
-                        to="/about-us"
-                      >
+                        to="/about-us">
                         ABOUT US
-                </NavLink></li>
-            <li><NavLink
+                    </NavLink></li>
+                <li><NavLink
                         activeClassName="menu_active"
                         className="nav-link"
-                        to="/contact-us"
-                      >
+                        to="/contact-us">
                         CONTACT US
-                </NavLink></li>
-            <li><NavLink
+                    </NavLink></li>
+                <li><NavLink
                         activeClassName="menu_active"
                         className="nav-link"
-                        to="/feedback"
-                      >
+                        to="/feedback">
                         FEEDBACK
-                </NavLink></li>
+                    </NavLink></li>
                     </ul>
                 </nav>
             </div>

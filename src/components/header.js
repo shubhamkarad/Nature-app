@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-// import logoTreeBig from "./assets/Logo/logoTreeBig.jpg";
 import{NavLink, Link} from "react-router-dom";
 import UserService from '../services/userService';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
@@ -9,7 +8,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ShoppingCartRoundedIcon from '@material-ui/icons/ShoppingCartRounded';
 import ExitToAppRoundedIcon from '@material-ui/icons/ExitToAppRounded';
 import { red, yellow } from '@material-ui/core/colors';
-const email=localStorage.getItem('email');
+// const email=localStorage.getItem('email');
+
 class Header extends Component {
     constructor(props){
         super(props);
@@ -19,12 +19,13 @@ class Header extends Component {
         };
         this.initialState = this.state;
         this.logout = this.logout.bind(this);
-
     }
+    // Logout funtion
     logout=()=>{
         UserService.logout();
         this.setState({state:this.initialState});
     }
+    //on componentMount set login state as true
     componentDidMount(){
     if(UserService.isLoggedIn()){
       this.setState({loggedIn:true});
@@ -34,10 +35,10 @@ class Header extends Component {
     }
     }
     render() {
+        //icon function
          const handleClick = (event) => {
         this.setState({anchorEl:event.currentTarget})
          };
-  
         const handleClose = () => {
         this.setState({anchorEl:null})
          };
@@ -52,9 +53,7 @@ class Header extends Component {
                         activeClassName="menu_active"
                         className="nav-link"
                         to="/login"
-                      >
-                        Login
-                </NavLink>
+                      >Login</NavLink>
         }
         {
         this.state.loggedIn && <span id="IconLogin">

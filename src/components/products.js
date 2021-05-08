@@ -8,6 +8,7 @@ class Product extends Component {
             products:[]
         }
     }
+    // get products on component mount
     componentDidMount(){
         ProductService.getProducts().then(res=>{
             console.log(res.data.message)
@@ -18,8 +19,8 @@ class Product extends Component {
          var referto="";
         return (
             <div>
-                 <div className="productsAvailable">
-                    <h2>Products Available</h2>
+                <div className="productsAvailable">
+                <h2>Products Available</h2>
             </div> 
             <div className="bonsai">
                 {
@@ -30,7 +31,7 @@ class Product extends Component {
                     <div className="box">
                     <h3>{val.productName}</h3>
                     </div></a>
-                </div>
+            </div>
                     })
                 }
             </div>

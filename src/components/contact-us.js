@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import UserService from "../services/userService";
+
 const email=localStorage.getItem('email');
+
 class ContactUs extends Component {
     constructor(props){
         super(props);
@@ -14,6 +16,11 @@ class ContactUs extends Component {
             phoneNoError:"",
             queryError:""
         }
+        if(localStorage.getItem('name')&&localStorage.getItem('email')){
+            this.state.name=localStorage.getItem('name');
+            this.state.email=localStorage.getItem('email');
+        }
+        // set state to initial state
         this.initialState=this.state;
         this.onNameChange=this.onNameChange.bind(this);
         this.onPhoneNoChange=this.onPhoneNoChange.bind(this);
@@ -27,14 +34,18 @@ class ContactUs extends Component {
         if(isValidName && isvalidQuery){
             alert(`hey ${this.state.name} thanks for contacting us.`)
             console.log(this.state);
-        let user = {name:this.state.name, email:this.state.email,
+        let user = {name:this.state.name, email:email,
              phoneNo:this.state.phoneNo, query:this.state.query}
              console.log('user data =>' +JSON.stringify(user));
         UserService.postResponse(user)
         .then(res=>
             console.log(res.data));
         // this.props.history.push("/home");
-        this.setState(this.initialState);
+            this.setState(this.initialState);
+        }
+        else
+        {
+            alert("Please Fill the fields properly")
         }
     }
     //event binding 
@@ -54,12 +65,13 @@ class ContactUs extends Component {
         
         this.setState({query: e.target.value});
     }
+    //validation part
      validateName = () => {
         let nameError="";
          if(!this.state.name){
              nameError = "Name Cannot be empty";
          }
-         else if(!this.state.name.match(["^[a-zA-Z\s]+$"])){
+         else if(!this.state.name.match(/^\S[a-zA-Z\s]+$/)){
              nameError="Name should contain characters only";
          }
          if(nameError){
@@ -81,38 +93,6 @@ class ContactUs extends Component {
          else{this.setState({queryError:""})}
          return true;
     }
-    //validation for form
-    // validate(){
-    //     let nameError;
-    //     let emailError;
-    //     let phoneNoError;
-    //     let queryError;
-    //     if(!this.state.name){
-    //         nameError="Name should not be empty";
-    //     }
-    //     else if(!this.state.name.match(["^[a-zA-Z\s]+$"])){
-    //         nameError="Name should contain characters only";
-    //     }
-    //     //email validation
-    //     if(!this.state.email){
-    //         emailError = "Email cannot not be empty";
-    //     }
-    //     else if(!this.state.email.match(["^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$"])){
-    //         emailError = "Please enter a valid Email";
-    //     }
-    //     if(!this.state.phoneNo){
-    //         phoneNoError="It should not be empty";
-    //     }
-    //     //query validation
-    //     if(!this.state.query){
-    //         queryError = "Please add your query";
-    //     }
-    //     if(nameError || emailError || phoneNoError || queryError){
-    //         this.setState({nameError, emailError, phoneNoError, queryError});
-    //         return false;
-    //     }
-    //     return true;
-    // }
     render() {
         return (
                 <div>
@@ -129,28 +109,24 @@ class ContactUs extends Component {
                                     onBlur={this.validateName}/>
                                     <span className="error">{this.state.nameError}</span>
                                 </p>   
-                                     
                             </div>
-                           
                             <div className="form-group">
                                 <p>
                                     <label htmlFor="cust_name">Email : </label>
                                     <input type="text" id="customerMail" value={email}
                                     onChange={this.onEmailChange}/>
                                     <span className="error">{this.state.emailError}</span>
-                                    </p>
+                                </p>
                             </div>
-
                             <div className="form-group">
                                 <p>
                                     <label htmlFor="cust_name">Phone:</label>
                                     <input type="text" id="customerNumber" placeholder="Optional"value={this.state.phoneNo}
                                     onChange={this.onPhoneNoChange}
-                                   />
+                                    />
                                     <span className="error">{this.state.phoneNoError}</span>
-                                    </p>
+                                </p>
                             </div>
-
                             <div className="form-group">
                                 <p>
                                     <label htmlFor="cust_message" className="query">Query:</label><br/>
@@ -158,9 +134,9 @@ class ContactUs extends Component {
                                     onChange={this.onQueryChange}
                                     onBlur={this.validateQuery}></textarea>
                                     <span className="error">{this.state.queryError}</span>
-                                    </p>
+                                </p>
                             </div>
-                            <a><input type="submit" id="submit" disabled={this.state.name.length<1 || 
+                            <a href="/"><input type="submit" id="submit" disabled={this.state.name.length<1 || 
                              this.state.query.length<1}value="Submit" /></a>
                         </form>
                     </div>

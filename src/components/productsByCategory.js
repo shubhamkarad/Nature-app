@@ -1,14 +1,6 @@
 import React, { Component } from 'react';
-// import Apple from "../assets/Bonsai/Apple.jpg";
-// import Mango from "../assets/Bonsai/Mango.jpg";
-// import Grapes from "../assets/Bonsai/Grapes.jpg";
-// import Orange from "../assets/Bonsai/Orange.jpg";
-// import Bodhi from "../assets/Bonsai/Bodhi.jpg";
-// import Azalea from "../assets/Bonsai/Azalea.jpg";
-// import MandarinCoolieHat from "../assets/Bonsai/MandarinCoolieHat.jpg";
-// import Hibiscus from "../assets/Bonsai/Hibiscus.jpg";
 import ProductCategoryService from '../services/productCategoryService';
-// import { getConstantValue } from 'typescript';
+
 class Products extends Component {
     constructor(props){
         super(props);
@@ -18,6 +10,7 @@ class Products extends Component {
             category:{}
         }
     }
+    // Get products by categories
     componentDidMount(){
         ProductCategoryService.getProductByCategories(this.state.id)
         .then(res =>{
@@ -43,7 +36,7 @@ class Products extends Component {
                     {this.state.products && this.state.products.map((value)=>{
                         referTo ="/product-details"+value.id;
                 return <div class="fruitbonsai" key={value.id}>
-                    <a  href = {referTo} class="bonsaiBox" ><img src={value.images[0]} alt={value.productName}/>
+                    <a class="bonsaiBox" href = {referTo}><img src={value.images[0]} alt={value.productName}/>
                     <div class="box">
                     <h3>{value.productName}</h3>
                     </div>

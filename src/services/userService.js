@@ -1,4 +1,5 @@
 import axios from "axios";
+// Javascript library for parsing, validating, manipulating and formatting Date 
 import * as moment from 'moment';
 const USER_BASE_URL = "http://localhost:8081/user/";
 
@@ -14,8 +15,10 @@ const USER_BASE_URL = "http://localhost:8081/user/";
     // create a new account
     signup(user){
         return axios.post(USER_BASE_URL, user);
+        
     }
-    // login call
+    // login end point 
+    //using email and password
     login(user){
         return axios.post(USER_BASE_URL + "login", user);
     }
@@ -23,6 +26,7 @@ const USER_BASE_URL = "http://localhost:8081/user/";
         const expiresAt = moment().add(responseObj.data.expiresIn);
         console.log(responseObj.data);
         localStorage.setItem('id_token', responseObj.data.token);
+        localStorage.setItem('name',responseObj.data.name);
         localStorage.setItem("expires_at", JSON.stringify(expiresAt.valueOf()));
       }
 
@@ -31,6 +35,7 @@ const USER_BASE_URL = "http://localhost:8081/user/";
         localStorage.removeItem('email');
         localStorage.removeItem("id_token");
         localStorage.removeItem("expires_at");
+        localStorage.removeItem('name');
         localStorage.removeItem('productId');
         localStorage.removeItem('productName');
     }

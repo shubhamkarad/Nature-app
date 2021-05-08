@@ -18,10 +18,13 @@ import Orders from './components/order';
 
 function App() {
   return (
+    // Routing Part
     <div>
       <Router>
+    <div>
       <Header/>
-      <Navbar/>
+      <div>
+        <Navbar/>
         <Menubar/>
         <Switch>
             <Route path="/" exact component={Home}></Route>
@@ -36,9 +39,9 @@ function App() {
             <Route path="/orders" component={Orders}></Route>
         </Switch>
       {/* <Home/> */}
-     
+      </div>
       <Footer/>
-   
+    </div>
     </Router>
     </div>
   );

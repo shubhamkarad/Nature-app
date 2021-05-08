@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-// import AllLogo from "/assets/Logo/AllLogo.jpg";
-// import VisaLogo from "/assets/Logo/visaLogo.jpg"
 import {Link} from "react-router-dom";
 class Footer extends Component {
     render() {
@@ -16,21 +14,21 @@ class Footer extends Component {
                 <div className="support">
                     <h3>Support</h3>
                     <ul type="none" >
-                                <li><Link to="/">Home</Link></li>
-                                <li>Products available</li>
-                                <li><Link to="/about-us">About Us</Link></li>
-                                <li><Link to="/contact-us">Contact us</Link></li>
-                                <li><Link to="/feedback">Feedback</Link></li>
+                        <li><Link to="/">Home</Link></li>
+                        <li><Link to="/products">Products available</Link></li>
+                        <li><Link to="/about-us">About Us</Link></li>
+                        <li><Link to="/contact-us">Contact us</Link></li>
+                        <li><Link to="/feedback">Feedback</Link></li>
                     </ul>
                 </div>
                 <div className="account">
                     <h3>My Accounts</h3>
                      <ul type="none" >
-                                <li>My account</li>
-                                <li>My orders</li>
-                                <li>My credit slips</li>
-                                <li>My addresses</li>
-                                <li>My personnel information</li>
+                            <li>My account</li>
+                            <li>My orders</li>
+                            <li>My credit slips</li>
+                            <li>My addresses</li>
+                            <li>My personnel information</li>
                      </ul>
                 </div>
                 <div className="useful">

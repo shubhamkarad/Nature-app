@@ -1,6 +1,5 @@
 import React from 'react';
 import CartService from '../services/cartService';
-import { makeStyles } from '@material-ui/core/styles';
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -8,19 +7,25 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { Button, TableFooter } from '@material-ui/core';
+import UserService from '../services/userService';
+import { Button } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
+import TableFooter from '@material-ui/core/TableFooter';
+import TablePagination from '@material-ui/core/TablePagination';
+import TablePaginationActions from './Pagination';
 import StoreSharpIcon from '@material-ui/icons/StoreSharp';
-import userService from '../services/userService';
 
 
-class Cart extends React.Component {
+  class Cart extends React.Component {
 
-      constructor(props){
+    constructor(props){
         super(props);
         this.state={
             sum:0,
             products:[],
-            totalPerItem:[]
+            totalPerItem:[],
+            page:0,
+            rowsPerPage:5
         };
         this.initialState=this.state;
         this.setProducts=this.setProducts.bind(this);
@@ -46,6 +51,8 @@ class Cart extends React.Component {
                 this.setProducts();
             }).catch(err=>{
                 console.log(err);
+                UserService.logout();
+                this.props.history.push("/login");
             });
         }
         else{
@@ -59,23 +66,28 @@ class Cart extends React.Component {
     async setProducts(){
         const email=localStorage.getItem('email');
         await CartService.getItems(email).then(res=>{
+            console.log(res.data);
+          if(res.data.message.length>0){
             this.setState({products:res.data.message[0].products});
             this.calculateTotal();
+          } 
         }
         ).catch(err=>{
             console.log(err);
-            userService.logout();
+            UserService.logout();
             this.props.history.push("/login");
         });
         
     }
 
     checkout(){
-      if(this.state.sum>0){
-        localStorage.setItem('total',this.state.sum);
-        localStorage.setItem('total_per_item',JSON.stringify(this.state.totalPerItem));
+      if(window.confirm("Are you sure you want to place the order?")){
+        if(this.state.sum>0){
+          localStorage.setItem('total',this.state.sum);
+          localStorage.setItem('total_per_item',JSON.stringify(this.state.totalPerItem));
+        }
+        this.props.history.push("/orders");
       }
-      this.props.history.push("/orders");
     }
 
     async decrementQuantity(index){
@@ -118,6 +130,7 @@ class Cart extends React.Component {
     }
 
     async emptyCart(){
+      if(window.confirm("Are you sure you want to empty cart?")){
       await CartService.emptyCart(localStorage.getItem('email')).then(res=>{
         console.log(res.data);
       }).catch(err=>{
@@ -125,13 +138,28 @@ class Cart extends React.Component {
       });
       this.setProducts();
     }
+    }
+  
 
   render() {
     const classes = makeStyles({
         table: {
-          minWidth: 650,
+          minWidth: 500,
         },
       });
+
+    const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.state.products.length - this.state.page * this.state.rowsPerPage);
+
+    const handleChangePage = (event, newPage) => {
+        this.setState({page:newPage})
+    };
+    
+    const handleChangeRowsPerPage = (event) => {
+        this.setState({rowsPerPage:parseInt(event.target.value, 10)})
+        this.setState({page:0})
+    };
+
+
     return (
     <div>
       <div className="loginBlock">
@@ -139,9 +167,11 @@ class Cart extends React.Component {
       </div>
       <div className="appleBonsai">
       <TableContainer component={Paper}>
-      <Table className={classes.table} size="small" aria-label="a dense table">
+      {this.state.products.length<1?<h2>Your Cart is Empty</h2>:
+      <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
+            <TableCell>Sr. No.</TableCell>
             <TableCell>Product Name</TableCell>
             <TableCell align="center">Quantity</TableCell>
             <TableCell align="right">Price Per Item</TableCell>
@@ -150,47 +180,73 @@ class Cart extends React.Component {
         </TableHead>
         <TableBody>
           {
-          this.state.products && this.state.products.map((val,index)=>{
+          (this.state.rowsPerPage > 0
+            ? this.state.products.slice(this.state.page * this.state.rowsPerPage, this.state.page * this.state.rowsPerPage + this.state.rowsPerPage)
+            : this.state.products
+          ).map((val,index)=>{
             return(
             <TableRow key={val[0]}>
+              <TableCell component="th">
+                {index+1+this.state.page * this.state.rowsPerPage}
+              </TableCell>
               <TableCell component="th" scope="row">
                 {val[1]}
               </TableCell>
               <TableCell align="center"><Button onClick={()=>{this.decrementQuantity(index)}}>-</Button>
               {val[2]}
               <Button onClick={()=>{this.incrementQuantity(index)}}>+</Button></TableCell>
-              <TableCell align="right">{val[3]}</TableCell>
-              <TableCell align="right">{(val[2]*val[3]).toFixed(2)}</TableCell>
-            </TableRow>
-            
+              <TableCell align="right">${val[3]}</TableCell>
+              <TableCell align="right">${(val[2]*val[3]).toFixed(2)}</TableCell>
+            </TableRow>    
             )
-        })
-    } 
-        <TableRow>
-        <TableCell align="right" colSpan="3">Grand Total</TableCell>
-          <TableCell align="right">{this.state.sum.toFixed(2)}</TableCell>
-        </TableRow>
+        })}
+          {emptyRows > 0 && (
+            <TableRow style={{ height: 53 * emptyRows }}>
+              <TableCell colSpan={6} />
+            </TableRow>
+          )}
+            <TableRow>
+                <TableCell align="right" colSpan="4">Grand Total</TableCell>
+            <TableCell align="right">${this.state.sum.toFixed(2)}</TableCell>
+            </TableRow>
         </TableBody>
         <TableFooter>
+          <TableRow>
+            <TablePagination
+              rowsPerPageOptions={[5, 10, 25, { label: 'All', value: -1 }]}
+              colSpan={5}
+              count={this.state.products.length}
+              rowsPerPage={this.state.rowsPerPage}
+              page={this.state.page}
+              SelectProps={{
+                inputProps: { 'aria-label': 'rows per page' },
+                native: true,
+              }}
+              onChangePage={handleChangePage}
+              onChangeRowsPerPage={handleChangeRowsPerPage}
+              ActionsComponent={TablePaginationActions}
+            />
+          </TableRow>
           {
             this.state.products.length>0?<TableRow>
-            <TableCell colSpan="2" align="center"><Button variant="contained" color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+            <TableCell colSpan="3" align="center"><Button variant="contained" color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
             <TableCell colSpan="2" align="center">
               <Button variant="contained" color="secondary" onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
-          </TableRow>:
-          <TableRow>
-          <TableCell colSpan="2" align="center"><Button variant="contained" disabled onClick={this.emptyCart}>Empty Cart</Button></TableCell>
-          <TableCell colSpan="2" align="center">
-            <Button variant="contained" disabled onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
-        </TableRow>
-          }
+            </TableRow>:
+            <TableRow>
+              <TableCell colSpan="2" align="center"><Button variant="contained" disabled onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+              <TableCell colSpan="2" align="center">
+              <Button variant="contained" disabled onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
+            </TableRow>
+        }
         </TableFooter>
       </Table>
+  }
     </TableContainer>
     </div>  
-     
     </div>
-     );
+  );
   }
 }
+
 export default Cart;
