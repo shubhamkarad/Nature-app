@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from "react-router-dom";
+import {NavLink} from "react-router-dom";
 import ProductCategoryService from '../services/productCategoryService';
 class Menubar extends Component {
     constructor(props){
@@ -27,7 +27,7 @@ class Menubar extends Component {
                 {this.state.categories && this.state.categories.map((value)=>{
                     referTo="/productsByCategory/"+value.id;
                 
-                return <Link to={referTo} className="links" key={value.id}>{value.name}</Link>
+                return <NavLink to={referTo} className="links" key={value.id}>{value.name}</NavLink>
                 })
                 }    
                 </div>
@@ -35,5 +35,4 @@ class Menubar extends Component {
         );
     }
 }
-
 export default Menubar;

@@ -1,20 +1,20 @@
 import './App.css';
 import {BrowserRouter as Router, Route, Switch} from "react-router-dom";
-import Footer from './components/footer';
-import Header from './components/header';
-import Home from './components/home';
-import Login from './components/login';
-import Menubar from './components/menubar';
-import Navbar from './components/navbar';
-import AboutUs from './components/about-us';
+import Footer from './components/Footer';
+import Header from './components/Header';
+import Home from './components/Home';
+import Login from './components/Login';
+import Menubar from './components/MenuBar';
+import Navbar from './components/Navbar';
+import AboutUs from './components/AboutUs';
 // import { findByTestId } from '@testing-library/dom';
-import Feedback from './components/feedback';
-import ContactUs from './components/contact-us';
-import Products from './components/productsByCategory';
-import ProductDetails from './components/productDetails';
-import Product from './components/products';
-import Cart from './components/cart';
-import Orders from './components/order';
+import Feedback from './components/Feedback';
+import ContactUs from './components/ContactUs';
+import Products from './components/ProductsByCategory';
+import ProductDetails from './components/ProductDetails';
+import Product from './components/Products';
+import Cart from './components/Cart';
+import Orders from './components/Orders';
 
 function App() {
   return (
@@ -38,7 +38,6 @@ function App() {
             <Route exact path="/cart" component={Cart}/>
             <Route path="/orders" component={Orders}></Route>
         </Switch>
-      {/* <Home/> */}
       </div>
       <Footer/>
     </div>

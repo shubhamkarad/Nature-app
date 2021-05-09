@@ -1,5 +1,8 @@
 import React from 'react';
+//Services
 import CartService from '../services/cartService';
+import UserService from '../services/userService';
+// Table Libraries
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -7,15 +10,30 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import UserService from '../services/userService';
-import { Button } from '@material-ui/core';
-import { makeStyles } from '@material-ui/core/styles';
-import TableFooter from '@material-ui/core/TableFooter';
+import { Button,TableFooter } from '@material-ui/core';
+import { withStyles,makeStyles } from '@material-ui/core/styles';
 import TablePagination from '@material-ui/core/TablePagination';
 import TablePaginationActions from './Pagination';
 import StoreSharpIcon from '@material-ui/icons/StoreSharp';
 
-
+// style part of column table cell
+const StyledTableCell = withStyles((theme) => ({
+  head: {
+    backgroundColor: theme.palette.common.black,
+    color: theme.palette.common.white,
+  },
+  body: {
+    fontSize: 14,
+  },
+}))(TableCell);
+// style part of column table row
+const StyledTableRow = withStyles((theme) => ({
+  root: {
+    '&:nth-of-type(odd)': {
+      backgroundColor: theme.palette.action.hover,
+    },
+  },
+}))(TableRow);
   class Cart extends React.Component {
 
     constructor(props){
@@ -37,8 +55,7 @@ import StoreSharpIcon from '@material-ui/icons/StoreSharp';
     componentDidMount(){
         this.addToCart();
     }
-
-
+    // Add items to cart
     addToCart(){
         if(localStorage.getItem('productId')&&localStorage.getItem('productName')&&localStorage.getItem('productPrice')&&localStorage.getItem('email')){
             const email=localStorage.getItem('email');
@@ -147,7 +164,6 @@ import StoreSharpIcon from '@material-ui/icons/StoreSharp';
           minWidth: 500,
         },
       });
-
     const emptyRows = this.state.rowsPerPage - Math.min(this.state.rowsPerPage, this.state.products.length - this.state.page * this.state.rowsPerPage);
 
     const handleChangePage = (event, newPage) => {
@@ -165,17 +181,17 @@ import StoreSharpIcon from '@material-ui/icons/StoreSharp';
       <div className="loginBlock">
             <h3>YOUR CART</h3>
       </div>
-      <div className="appleBonsai">
+      <div className="cartTable ">
       <TableContainer component={Paper}>
       {this.state.products.length<1?<h2>Your Cart is Empty</h2>:
       <Table className={classes.table} aria-label="custom pagination table">
         <TableHead>
           <TableRow>
-            <TableCell>Sr. No.</TableCell>
-            <TableCell>Product Name</TableCell>
-            <TableCell align="center">Quantity</TableCell>
-            <TableCell align="right">Price Per Item</TableCell>
-            <TableCell align="right">Total Per Item</TableCell>
+            <StyledTableCell>Sr. No.</StyledTableCell>
+            <StyledTableCell>Product Name</StyledTableCell>
+            <StyledTableCell align="center">Quantity</StyledTableCell>
+            <StyledTableCell align="right">Price Per Item</StyledTableCell>
+            <StyledTableCell align="right">Total Per Item</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -185,19 +201,19 @@ import StoreSharpIcon from '@material-ui/icons/StoreSharp';
             : this.state.products
           ).map((val,index)=>{
             return(
-            <TableRow key={val[0]}>
-              <TableCell component="th">
+            <StyledTableRow key={val[0]}>
+              <StyledTableCell component="th">
                 {index+1+this.state.page * this.state.rowsPerPage}
-              </TableCell>
-              <TableCell component="th" scope="row">
+              </StyledTableCell>
+              <StyledTableCell component="th" scope="row">
                 {val[1]}
-              </TableCell>
-              <TableCell align="center"><Button onClick={()=>{this.decrementQuantity(index)}}>-</Button>
+              </StyledTableCell>
+              <StyledTableCell align="center"><Button onClick={()=>{this.decrementQuantity(index)}}>-</Button>
               {val[2]}
-              <Button onClick={()=>{this.incrementQuantity(index)}}>+</Button></TableCell>
-              <TableCell align="right">${val[3]}</TableCell>
-              <TableCell align="right">${(val[2]*val[3]).toFixed(2)}</TableCell>
-            </TableRow>    
+              <Button onClick={()=>{this.incrementQuantity(index)}}>+</Button></StyledTableCell>
+              <StyledTableCell align="right">${val[3]}</StyledTableCell>
+              <StyledTableCell align="right">${(val[2]*val[3]).toFixed(2)}</StyledTableCell>
+            </StyledTableRow>    
             )
         })}
           {emptyRows > 0 && (

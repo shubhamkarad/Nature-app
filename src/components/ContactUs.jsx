@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
-import UserService from "../services/userService";
-
+import ContactUsService from "../services/contactUsService";
 const email=localStorage.getItem('email');
-
 class ContactUs extends Component {
     constructor(props){
         super(props);
@@ -37,7 +35,7 @@ class ContactUs extends Component {
         let user = {name:this.state.name, email:email,
              phoneNo:this.state.phoneNo, query:this.state.query}
              console.log('user data =>' +JSON.stringify(user));
-        UserService.postResponse(user)
+        ContactUsService.postResponse(user)
         .then(res=>
             console.log(res.data));
         // this.props.history.push("/home");
@@ -121,9 +119,8 @@ class ContactUs extends Component {
                             <div className="form-group">
                                 <p>
                                     <label htmlFor="cust_name">Phone:</label>
-                                    <input type="text" id="customerNumber" placeholder="Optional"value={this.state.phoneNo}
-                                    onChange={this.onPhoneNoChange}
-                                    />
+                                    <input type="text" id="customerNumber" placeholder="Optional" value={this.state.phoneNo}
+                                    onChange={this.onPhoneNoChange}/>
                                     <span className="error">{this.state.phoneNoError}</span>
                                 </p>
                             </div>

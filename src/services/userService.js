@@ -4,14 +4,7 @@ import * as moment from 'moment';
 const USER_BASE_URL = "http://localhost:8081/user/";
 
  class UserService{
-    // store the contact us form
-    postResponse(user){
-        return axios.post(USER_BASE_URL + "contact", user);
-    }
-    // store the feedack form 
-    postFeedback(user){
-        return axios.post(USER_BASE_URL + "feedback", user);
-    }
+   
     // create a new account
     signup(user){
         return axios.post(USER_BASE_URL, user);

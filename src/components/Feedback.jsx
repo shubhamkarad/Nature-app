@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import UserService from '../services/userService';
+import FeedbackService from '../services/feedbackService';
 const email=localStorage.getItem('email');
-// material ui part
+
 
 class Feedback extends Component {
     constructor(props){
@@ -74,7 +74,7 @@ class Feedback extends Component {
             alert(`Hey ${this.state.name} thanks for your feedback!`);
             console.log(this.state);
             let user = {name:this.state.name, email:email, comment:this.state.comment}
-            UserService.postFeedback(user)
+            FeedbackService.postFeedback(user)
             .then(res=>{
             console.log(res.data);
             this.setState(this.initialState)
@@ -114,7 +114,7 @@ class Feedback extends Component {
                         <label htmlFor="cust_message">Comment:</label><br/>
                         <textarea rows="5" id="customerNote" name="customerNote" value={this.state.comment} placeholder="Write something here..." 
                         onChange={this.handleCommentChange}
-                        onBlur={this.validateComment}></textarea>
+                        onBlur={this.validateComment}/>
                         <span className="error">{this.state.commentError}</span>
                     </p>  
                 </div>

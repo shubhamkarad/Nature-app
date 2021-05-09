@@ -14,11 +14,11 @@ class Footer extends Component {
                 <div className="support">
                     <h3>Support</h3>
                     <ul type="none" >
-                        <li><Link to="/">Home</Link></li>
-                        <li><Link to="/products">Products available</Link></li>
-                        <li><Link to="/about-us">About Us</Link></li>
-                        <li><Link to="/contact-us">Contact us</Link></li>
-                        <li><Link to="/feedback">Feedback</Link></li>
+                        <li><Link to="/" style={{ color: 'inherit', textDecoration: 'inherit'}}>Home</Link></li>
+                        <li><Link to="/products" style={{ color: 'inherit', textDecoration: 'inherit'}}>Products available</Link></li>
+                        <li><Link to="/about-us"style={{ color: 'inherit', textDecoration: 'inherit'}}>About Us</Link></li>
+                        <li><Link to="/contact-us"style={{ color: 'inherit', textDecoration: 'inherit'}}>Contact us</Link></li>
+                        <li><Link to="/feedback"style={{ color: 'inherit', textDecoration: 'inherit'}}>Feedback</Link></li>
                     </ul>
                 </div>
                 <div className="account">

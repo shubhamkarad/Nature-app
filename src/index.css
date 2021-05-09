@@ -180,6 +180,7 @@ code {
         .bonsai {
             width: 100%;
         }
+        
     }
     
     @media only screen and (min-width: 768px) {
@@ -195,6 +196,11 @@ code {
         .useful {
             width: 100%;
         }
+         /* #IconLogin{
+            margin-top: 10px;
+        } */
+      
+       
     }
     
     .menu {
@@ -337,10 +343,10 @@ code {
             width: 100%;
             height: auto;
         }
-        #iconLogin{
-            width: 100%;
+        /* #iconLogin{
+            width: 50%;
             height: auto;
-        }
+        } */
         div.createAccount {
             width: 100%;
             height: auto;
@@ -477,11 +483,11 @@ code {
             height: auto;
             margin-left: 15%;
         }
-        #IconLogin{
+        /* #IconLogin{
             width: 100%;
             height: auto;
             
-        }
+        } */
         div .feedbackBlock h3 {
             width: 100%;
             height: auto;
@@ -496,11 +502,12 @@ code {
             width: 95%;
             margin: 2%;
         }
-        #IconLogin{
+        /* #IconLogin{
             width: 95%;
             margin-top: 12px;
             margin-left:50px;
-        }
+        } */
+       
         div.feedbackBlock {
             width: 95%;
             margin: 2%;
@@ -1075,6 +1082,17 @@ code {
         .box {
             font-size: 0.7em;
         }
+        #IconLogin{
+            width: 40%;
+            margin-top: 10px;
+            margin-left: 10px;
+            
+        }
+        #nameShow{
+           position: absolute;
+           width: 100%;
+           left: 0%;
+        }
     }
     /* ------------feedback---------*/
     
@@ -1299,16 +1317,19 @@ code {
         text-align: center;
     }
 /*----------------ui design-------------*/
-    #nameEmail{
-        background-color: #202020;
-        border-radius: 10px;
-        color: rgb(255, 224, 88);
-        text-align: center;
-        font-size: 0.7em;
-        margin-left: 90px;
-        padding: 3px;
-        margin-bottom:10px ;
+    #nameShow{
+        /* display: inline-flex; */
+        float: right;
+        margin-top: 10px;
+        font-weight: bold;
+        color:white;
+        font-size: 0.9em;
+        margin-left: 550px;
     }
    /* #IconLogin{
        background-color: black;
+       display: inline-block;
+       margin-top: 40px;
+      
+       
    } */

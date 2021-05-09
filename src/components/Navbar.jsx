@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import{Link, NavLink} from "react-router-dom";
+import{ NavLink} from "react-router-dom";
 import productCategoryService from '../services/productCategoryService';
 class Navbar extends Component {
     constructor(props){
@@ -23,7 +23,10 @@ class Navbar extends Component {
                 <div className="nav">
                 <nav>
                     <ul>
-                        <li><Link to="/"><a href="/">HOME</a></Link></li>
+                        <li><NavLink activeClassName="menu_active"
+                        className="nav-link"
+                         to="/">HOME</NavLink>
+                         </li>
                         <li><div className="dropdown">
                         <NavLink
                         activeClassName="menu_active"
@@ -58,6 +61,7 @@ class Navbar extends Component {
                         to="/feedback">
                         FEEDBACK
                     </NavLink></li>
+                    <li><span className="nameShow">{this.state.name}</span></li>
                     </ul>
                 </nav>
             </div>
