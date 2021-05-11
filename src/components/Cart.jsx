@@ -245,14 +245,14 @@ const StyledTableRow = withStyles((theme) => ({
           </TableRow>
           {
             this.state.products.length>0?<TableRow>
-            <TableCell colSpan="3" align="center"><Button variant="contained" color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+            <TableCell colSpan="3" align="center"><Button style={{backgroundColor:"#8BC34A"}} variant="contained" color="secondary" onClick={this.emptyCart}>Empty Cart</Button></TableCell>
             <TableCell colSpan="2" align="center">
-              <Button variant="contained" color="secondary" onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
+              <Button style={{backgroundColor:"#8BC34A"}} variant="contained" color="secondary" onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
             </TableRow>:
             <TableRow>
-              <TableCell colSpan="2" align="center"><Button variant="contained" disabled onClick={this.emptyCart}>Empty Cart</Button></TableCell>
+              <TableCell colSpan="2" align="center"><Button style={{backgroundColor:"green"}} variant="contained" disabled onClick={this.emptyCart}>Empty Cart</Button></TableCell>
               <TableCell colSpan="2" align="center">
-              <Button variant="contained" disabled onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
+              <Button style={{backgroundColor:"#8BC34A"}} variant="contained" disabled onClick={this.checkout}>Confirm Order<StoreSharpIcon></StoreSharpIcon></Button></TableCell>
             </TableRow>
         }
         </TableFooter>

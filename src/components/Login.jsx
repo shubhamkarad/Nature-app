@@ -17,14 +17,15 @@ class Login extends Component {
             passwordError:"",
             loginPasswordError:"",
         }
-        this.onnameChange=this.onnameChange.bind(this);
+        // Function Binding
+        this.onNameChange=this.onNameChange.bind(this);
         this.onEmailChange=this.onEmailChange.bind(this);
         this.onUserEmailChange=this.onUserEmailChange.bind(this);
         this.onUserPasswordChange=this.onUserPasswordChange.bind(this);
         this.onPasswordChange=this.onPasswordChange.bind(this);
     }
     // event call
-    onnameChange=(e)=>{
+    onNameChange=(e)=>{
         this.setState({ name: e.target.value});
     }
     onEmailChange=(e)=>{
@@ -172,7 +173,7 @@ class Login extends Component {
 
                             <p><label htmlFor="name">Name: </label>
                             <input type="text" name="name" value={this.state.name}
-                            onChange={this.onnameChange}
+                            onChange={this.onNameChange}
                             onBlur={this.validateName}/>
                             <span className="error">{this.state.nameError}</span>
                             </p>
